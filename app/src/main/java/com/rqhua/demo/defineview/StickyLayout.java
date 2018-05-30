@@ -209,6 +209,7 @@ public class StickyLayout extends LinearLayout {
     @Override
     public void computeScroll() {
         if (mScroller.computeScrollOffset()) {
+
             int currY = mScroller.getCurrY();
             if (mDirection == DIRECTION.UP) {
                 if (isSticky()) {
