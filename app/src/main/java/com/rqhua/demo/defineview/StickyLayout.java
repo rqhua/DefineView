@@ -2,18 +2,19 @@ package com.rqhua.demo.defineview;
 
 import android.content.Context;
 import android.os.Build;
+import android.support.design.widget.TabLayout;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.VelocityTracker;
 import android.view.View;
 import android.view.ViewConfiguration;
 import android.widget.ExpandableListView;
 import android.widget.LinearLayout;
-import android.widget.ScrollView;
 import android.widget.Scroller;
-
 
 /**
  * author: shell
@@ -28,6 +29,7 @@ public class StickyLayout extends LinearLayout {
     private float mLastY;
     private int mLastScrollerY;
     private int mHeaderHeight;
+    //头高度
     private int mStickyHeight;
     //头部是否已经隐藏
     private boolean mIsSticky;
@@ -39,14 +41,9 @@ public class StickyLayout extends LinearLayout {
     private boolean mReDirect;
     //专门用于处理滚动效果的工具类
     private Scroller mScroller;
-    //能够进行手势滑动的距离
     private int mTouchSlop;
-    //跟踪触摸事件的速度
     private VelocityTracker mVelocityTracker;
-    //fling手势动作的最大速度值
-    private int mMaximumVelocity;
-    //fling手势动作的最小速度值
-    private int mMinimumVelocity;
+    private int mMaximumVelocity, mMinimumVelocity;
     private DIRECTION mDirection;
 
     enum DIRECTION {
@@ -65,6 +62,7 @@ public class StickyLayout extends LinearLayout {
         super(context, attrs, defStyleAttr);
         //获得能够进行手势滑动的距离
         mTouchSlop = ViewConfiguration.get(context).getScaledTouchSlop();
+
         //获得允许执行一个fling手势动作的最大速度值
         mMaximumVelocity = ViewConfiguration.get(context).getScaledMaximumFlingVelocity();
         //获得允许执行一个fling手势动作的最小速度值
@@ -80,11 +78,9 @@ public class StickyLayout extends LinearLayout {
         mStickyView = findViewById(R.id.st_sticky);
     }
 
-
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         //测量header高度,设置 StickyLayout 的高度
-//        mHeaderHeight = mHeaderView.getMeasuredHeight() - mStickyView.getMeasuredHeight();
         mHeaderHeight = mHeaderView.getMeasuredHeight();
         mStickyHeight = mStickyView.getMeasuredHeight();
         int newHeightMeasureSpec = MeasureSpec.makeMeasureSpec(MeasureSpec.getSize(heightMeasureSpec) + mHeaderHeight, MeasureSpec.EXACTLY);
@@ -255,6 +251,8 @@ public class StickyLayout extends LinearLayout {
         return mIsSticky;
     }
 
+    private static final String TAG = "StickyLayout";
+
     /**
      * 是否内容顶部
      *
@@ -262,16 +260,26 @@ public class StickyLayout extends LinearLayout {
      * @return
      */
     private boolean isContentViewTop(View view) {
-        if (view == null) {
+        boolean isTop = false;
+        int[] contentLocation = new int[2];
+        getContentView().getLocationOnScreen(contentLocation);
+        int[] stickyLocation = new int[2];
+        mStickyView.getLocationOnScreen(stickyLocation);
+        if (contentLocation[1] >= mStickyHeight + stickyLocation[1]) {
+            isTop = true;
+        }
+        Log.d(TAG, "isContentTop: " + isTop);
+        return isTop;
+        /*if (view == null) {
             return false;
         }
         if (view instanceof RecyclerView) {
             return isRecyclerViewTop((RecyclerView) view);
         } else if (view instanceof ExpandableListView) {
             return isExpandableListViewTop((ExpandableListView) view);
-        } else {
-            return isViewTop();
         }
+
+        return false;*/
     }
 
     /**
@@ -313,23 +321,9 @@ public class StickyLayout extends LinearLayout {
         return false;
     }
 
-    private boolean isViewTop() {
-//        int[] svpoint = new int[2];
-//        int[] contentpoint = new int[2];
-//        sv.getLocationOnScreen(svpoint);
-//        mContentView.getLocationOnScreen(contentpoint);
-//        if (svpoint[1] == contentpoint[1])
-//            return true;
-        return false;
-    }
-
     private View getContentView() {
-//        HomeFragment.GoodsPageAdapter adapter = (HomeFragment.GoodsPageAdapter) mContentView.getAdapter();
-//        View view = adapter.getFragment(mContentView.getCurrentItem()).getView();
-//        return view;
-        return findViewById(R.id.st_content);
+        return mContentView;
     }
-
 
     private void contentListFling(int distance, int duration) {
         View view = getContentView();
@@ -344,6 +338,8 @@ public class StickyLayout extends LinearLayout {
                 } else {
                     expandableListView.scrollBy(0, distance);
                 }
+            } else {
+                view.scrollBy(0, distance);
             }
         }
     }
