@@ -20,9 +20,9 @@ public class SnapHelperActivity extends AppCompatActivity implements MyLayoutMan
         setContentView(R.layout.activity_snap_helper);
         recyclerView = ((RecyclerView) findViewById(R.id.recyclerview));
 //        MyLayoutManager layoutManager = new MyLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-        EchelonLayoutManager layoutManager = new EchelonLayoutManager(this);
+//        EchelonLayoutManager layoutManager = new EchelonLayoutManager(this);
 //        layoutManager.setOnViewPagerListener(this);
-        recyclerView.setLayoutManager(layoutManager);
+//        recyclerView.setLayoutManager(layoutManager);
         adapter = new AbsAdapter<String>(this) {
             @Override
             protected void onBindDataToView(CommonHolder holder, String bean, int position) {

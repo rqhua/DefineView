@@ -9,14 +9,15 @@
     <com.rqhua.demo.defineview.scroller.ScrollerDemoView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
         android:orientation="vertical"
         android:visibility="visible">
 
         <View
             android:id="@+id/st_header"
             android:layout_width="match_parent"
-            android:background="@color/colorPrimaryDark"
-            android:layout_height="300dp" />
+            android:layout_height="300dp"
+            android:background="@color/colorPrimaryDark" />
 
         <Button
             android:id="@+id/st_sticky"

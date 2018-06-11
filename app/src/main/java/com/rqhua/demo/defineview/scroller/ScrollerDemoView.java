@@ -93,7 +93,7 @@ public class ScrollerDemoView extends LinearLayout {
                 diffY = mLastRawY - mY;
                 mLastRawY = mY;
                 //content与布局滑动事件传递，通过cancel事件：下滑动传递
-                if (diffY < 0 && isContentTop()) {
+                if (diffY < 0 /*&& Math.abs(diffY) > mTouchSlop */ && isContentTop()) {
                     event.setAction(MotionEvent.ACTION_CANCEL);
                 }
                 break;
@@ -116,18 +116,12 @@ public class ScrollerDemoView extends LinearLayout {
     public boolean onInterceptTouchEvent(MotionEvent event) {
         mY = event.getY();
         switch (event.getAction()) {
-            case MotionEvent.ACTION_DOWN:
-                mLastRawY = mY;
-                break;
             case MotionEvent.ACTION_MOVE:
-                if (!isSticky() && isContentTop()
-                        || !isSticky() && !isContentTop()
-                        || isSticky() && isContentTop() && scrolDirection(mLastRawY, mY) == Direction.DOWN) {
+                if (!isSticky() && isContentTop() /*&& isScroll(mLastRawY, mY)*/
+                        || !isSticky() && !isContentTop() && isScroll(mLastRawY, mY)
+                        || isSticky() && isContentTop() && scrolDirection(mLastRawY, mY) == Direction.DOWN && isScroll(mLastRawY, mY)) {
                     return true;
                 }
-                break;
-            case MotionEvent.ACTION_UP:
-                mLastRawY = 0;
                 break;
         }
         return super.onInterceptTouchEvent(event);
@@ -139,6 +133,8 @@ public class ScrollerDemoView extends LinearLayout {
     public boolean onTouchEvent(MotionEvent event) {
 //        mY = event.getY();
         switch (event.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                return true;
             case MotionEvent.ACTION_MOVE:
                 Log.d(TAG, "onTouchEvent: ACTION_MOVE ");
                 scrollBy(0, (int) (diffY));
@@ -149,6 +145,7 @@ public class ScrollerDemoView extends LinearLayout {
                 }
                 break;
             case MotionEvent.ACTION_CANCEL:
+                Log.d(TAG, "onTouchEvent: ACTION_CANCEL");
                 scrollBy(0, (int) (diffY));
                 break;
 //            case MotionEvent.ACTION_UP:
@@ -244,6 +241,10 @@ public class ScrollerDemoView extends LinearLayout {
 
     private Direction scrolDirection(float lastY, float curY) {
         return lastY < curY ? Direction.DOWN : Direction.UP;
+    }
+
+    private boolean isScroll(float lastY, float curY) {
+        return Math.abs(lastY - curY) > mTouchSlop;
     }
 
     //跟踪触摸事件的速度
