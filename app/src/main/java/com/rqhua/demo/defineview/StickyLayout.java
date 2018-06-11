@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewConfiguration;
 import android.widget.ExpandableListView;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.Scroller;
 
 /**
@@ -140,7 +141,9 @@ public class StickyLayout extends LinearLayout {
                 //非粘性状态列表没有滑动到顶部,向上滑||非粘性状态列表滑动到顶部||黏性状态向下滑,列表到达顶部
                 //这3种情况都需要拦截滑动事件
                 float dy = mLastY - y;
-                if (!isSticky() && Math.abs(dy) > mTouchSlop && !isContentViewTop(getContentView()) && dy > 0 || !isSticky() && Math.abs(dy) > mTouchSlop && isContentViewTop(getContentView()) || isSticky() && dy < 0 && isContentViewTop(getContentView())) {
+                if (!isSticky() && Math.abs(dy) > mTouchSlop && !isContentViewTop(getContentView()) && dy > 0
+                        || !isSticky() && Math.abs(dy) > mTouchSlop && isContentViewTop(getContentView())
+                        || isSticky() && dy < 0 && isContentViewTop(getContentView())) {
                     mLastY = y;
                     return true;
                 } else if (Math.abs(dy) > mTouchSlop) {
@@ -339,7 +342,10 @@ public class StickyLayout extends LinearLayout {
                 } else {
                     expandableListView.scrollBy(0, distance);
                 }
-            } else {
+            } else if(view instanceof ScrollView){
+                ScrollView scrollView = ((ScrollView) view);
+                scrollView.fling(getScrollerVelocity(distance, duration));
+
                 view.scrollBy(0, distance);
             }
         }
