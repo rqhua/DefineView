@@ -96,6 +96,11 @@ public class ScrollerDemoView2 extends LinearLayout {
     }
 
     @Override
+    protected void onLayout(boolean changed, int l, int t, int r, int b) {
+        super.onLayout(changed, l, t, r, b);
+    }
+
+    @Override
     protected void onFinishInflate() {
         super.onFinishInflate();
         setScaleX(scalingFactor);
@@ -111,10 +116,9 @@ public class ScrollerDemoView2 extends LinearLayout {
     private static final float MIN_SCALING_FACTOR = (float) 0.8;
 
     float mDownY;
-
     float mLastY;
     float mDiffY;
-    float scalingFactor = 1;
+    float scalingFactor = MIN_SCALING_FACTOR;
 
     @Override
     public boolean onInterceptTouchEvent(MotionEvent event) {
@@ -156,8 +160,6 @@ public class ScrollerDemoView2 extends LinearLayout {
                 if (Math.abs(mDiffY) < mTouchSlop) {
                     break;
                 }
-                /*if (mDiffY > mTouchSlop)
-                    return true;*/
                 distance = y - mLastY;
                 mChangedDH = mChangedDH + distance;
 
@@ -165,10 +167,7 @@ public class ScrollerDemoView2 extends LinearLayout {
                 if (mChangedDH < 0) {
                     mChangedDH = 0;
                 } else {
-                    scalingFactor = (float) (1 - 0.2 * mChangedDH / mDH);
-                    if (scalingFactor > 0.7 && scalingFactor < 0.8) {
-                        scalingFactor = (float) 0.8;
-                    }
+                    scalingFactor = getScalFactor(mChangedDH);
                     float alphaTop = -5 * scalingFactor + 5;
                     float scaleTop = (-mDH) * 5 * scalingFactor / mHeaderTopMeasuredHeight - (float) (4.0 * miniTopScal) + 5;
                     if ((scaleTop - miniTopScal) < 0.1) {
@@ -186,7 +185,7 @@ public class ScrollerDemoView2 extends LinearLayout {
                 if (mChangedDH > mDH) {
                     mChangedDH = mDH;
                 } else {
-                    scalingFactor = (float) (1 - 0.2 * mChangedDH / mDH);
+                    scalingFactor = getScalFactor(mChangedDH);
                     setScaleX(scalingFactor);
 //                    setScaleY(scalingFactor);
                 }
@@ -197,6 +196,35 @@ public class ScrollerDemoView2 extends LinearLayout {
                 break;
         }
         return super.onTouchEvent(event);
+    }
+
+    private void scale() {
+        float alphaTop = -5 * scalingFactor + 5;
+        float scaleTop = (-mDH) * 5 * scalingFactor / mHeaderTopMeasuredHeight - (float) (4.0 * miniTopScal) + 5;
+        if ((scaleTop - miniTopScal) < 0.1) {
+            scaleTop = miniTopScal;
+        }
+        float alphaBottom = 5 * scalingFactor - 4;
+
+        mHeaderTop.setAlpha(alphaTop);
+        mHeaderBottom.setAlpha(alphaBottom);
+        mHeaderTop.setScaleY(scaleTop);
+        setScaleX(scalingFactor);
+    }
+
+    /**
+     * @param diffH 两个头部的动态高度差
+     */
+    private float getScalFactor(float diffH) {
+        float scalingFactor = (float) (1 - 0.2 * diffH / mDH);
+        if (scalingFactor > MIN_SCALING_FACTOR - 0.1 && scalingFactor < MIN_SCALING_FACTOR) {
+            scalingFactor = (float) 0.8;
+        }
+
+        if (scalingFactor > 0.95 && scalingFactor > 1) {
+            scalingFactor = 1;
+        }
+        return scalingFactor;
     }
 
 }

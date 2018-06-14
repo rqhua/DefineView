@@ -1,6 +1,7 @@
 package com.rqhua.demo.defineview;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
@@ -17,12 +18,9 @@ public class MainActivity extends Activity implements View.OnClickListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_main);
-        setContentView(R.layout.main2);
-        findViewById(R.id.st_header).setOnClickListener(this);
-        findViewById(R.id.st_sticky).setOnClickListener(this);
-        findViewById(R.id.st_content).setOnClickListener(this);
-        recyclerView = ((RecyclerView) findViewById(R.id.recyclerview));
+        setContentView(R.layout.activity_main);
+        findViewById(R.id.demo1).setOnClickListener(this);
+        findViewById(R.id.demo2).setOnClickListener(this);
     }
 
     private static final String TAG = "MainActivity";
@@ -31,17 +29,11 @@ public class MainActivity extends Activity implements View.OnClickListener {
     public void onClick(View v) {
 
         switch (v.getId()) {
-            case R.id.st_header:
-                Log.d(TAG, "onClick st_header");
-                Toast.makeText(MainActivity.this, "Click st_header", Toast.LENGTH_SHORT).show();
+            case R.id.demo1:
+                startActivity(new Intent(this, ScrollerDemo1Activity.class));
                 break;
-            case R.id.st_sticky:
-                Log.d(TAG, "onClick st_sticky");
-                Toast.makeText(MainActivity.this, "Click st_sticky", Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.st_content:
-                Log.d(TAG, "onClick st_content");
-                Toast.makeText(MainActivity.this, "Click st_content", Toast.LENGTH_SHORT).show();
+            case R.id.demo2:
+                startActivity(new Intent(this, ScrollerDemo2Activity.class));
                 break;
         }
     }

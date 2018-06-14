@@ -184,9 +184,9 @@ public class ScrollerDemoView extends LinearLayout {
                 } else {
                     //滚动未完成，布局继续滚动
 //                    setX(scroller.getCurrX());
-                    setY(scroller.getCurrY());
+//                    setY(scroller.getCurrY());
 
-//                    scrollTo(scroller.getCurrX(), scroller.getCurrY());
+                    scrollTo(scroller.getCurrX(), scroller.getCurrY());
                     postInvalidate();
                 }
             } else {

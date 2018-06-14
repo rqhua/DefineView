@@ -16,9 +16,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".SnapHelperActivity">
+        <activity android:name=".SnapHelperActivity" />
 
-        </activity>
+        <activity android:name=".ScrollerDemo1Activity" />
+        <activity android:name=".ScrollerDemo2Activity" />
     </application>
 
 </manifest>
