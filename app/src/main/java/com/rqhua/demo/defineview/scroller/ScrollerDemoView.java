@@ -173,6 +173,7 @@ public class ScrollerDemoView extends LinearLayout {
         //判断是否还在滚动，还在滚动为true
         if (scroller.computeScrollOffset()) {
             int currY = scroller.getCurrY();
+            Log.d(TAG, "computeScroll: currY " + currY);
             if (direction == Direction.UP) {
                 if (isSticky()) {
                     int distance = scroller.getFinalY() - currY;
@@ -182,7 +183,10 @@ public class ScrollerDemoView extends LinearLayout {
                     scroller.forceFinished(true);
                 } else {
                     //滚动未完成，布局继续滚动
-                    scrollTo(scroller.getCurrX(), scroller.getCurrY());
+//                    setX(scroller.getCurrX());
+                    setY(scroller.getCurrY());
+
+//                    scrollTo(scroller.getCurrX(), scroller.getCurrY());
                     postInvalidate();
                 }
             } else {
