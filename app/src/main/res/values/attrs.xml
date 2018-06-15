@@ -2,6 +2,8 @@
 <resources>
     <declare-styleable name="DefineView">
         <attr name="topheader_height" format="dimension" />
+        <attr name="topheader_width" format="dimension" />
+        <attr name="bottomheader_height" format="dimension" />
         <attr name="bottomheader_width" format="dimension" />
     </declare-styleable>
 </resources>

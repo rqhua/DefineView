@@ -21,6 +21,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
         setContentView(R.layout.activity_main);
         findViewById(R.id.demo1).setOnClickListener(this);
         findViewById(R.id.demo2).setOnClickListener(this);
+        findViewById(R.id.demo3).setOnClickListener(this);
     }
 
     private static final String TAG = "MainActivity";
@@ -34,6 +35,9 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 break;
             case R.id.demo2:
                 startActivity(new Intent(this, ScrollerDemo2Activity.class));
+                break;
+            case R.id.demo3:
+                startActivity(new Intent(this, ScrollerDemo3Activity.class));
                 break;
         }
     }

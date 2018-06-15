@@ -20,12 +20,15 @@ import com.rqhua.demo.defineview.R;
  */
 
 public class ScrollerDemoView2 extends LinearLayout {
+    //头部
     private View mHeaderTop;
     private View mHeaderBottom;
+    //内容区域
     private View mContentView;
     private int screenWidth;
     private int screenHeight;
     private int mTouchSlop;
+    //头部header原始宽高
     private int mHeaderBottomMeasuredHeight;
     private int mHeaderTopMeasuredHeight;
     private int mHeaderTopMeasuredWidth;
@@ -74,25 +77,27 @@ public class ScrollerDemoView2 extends LinearLayout {
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        if (!isInit) {
+        /*if (!isInit) {
             mHeaderTopMeasuredHeight = mHeaderTop.getMeasuredHeight();
             mHeaderBottomMeasuredHeight = mHeaderBottom.getMeasuredHeight();
-        }
-
+        }*/
         mHeaderTopMeasuredWidth = mHeaderTop.getMeasuredWidth();
-
         Log.d(TAG, "onMeasure: mHeaderTopMeasuredHeight " + mHeaderTopMeasuredHeight);
         Log.d(TAG, "onMeasure: mHeaderBottomMeasuredHeight " + mHeaderBottomMeasuredHeight);
+        setHeaderH(mHeaderTopMeasuredHeight, mHeaderBottomMeasuredHeight);
+        isInit = false;
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+    }
+
+    //设置头部宽高
+    private void setHeaderH(int headerHtop, int headerHbot) {
         //设置Header宽高
         ViewGroup.LayoutParams layoutParamsT = mHeaderTop.getLayoutParams();
-        layoutParamsT.height = mHeaderTopMeasuredHeight;
+        layoutParamsT.height = headerHtop;
         mHeaderTop.setLayoutParams(layoutParamsT);
         ViewGroup.LayoutParams layoutParamsB = mHeaderBottom.getLayoutParams();
-        layoutParamsB.height = mHeaderBottomMeasuredHeight;
+        layoutParamsB.height = headerHbot;
         mHeaderBottom.setLayoutParams(layoutParamsB);
-        isInit = false;
-
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
     }
 
     @Override
@@ -127,6 +132,7 @@ public class ScrollerDemoView2 extends LinearLayout {
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 mLastY = y;
+                mDownY = y;
                 Log.d(TAG, "onInterceptTouchEvent: ACTION_DOWN");
                 return true;
             case MotionEvent.ACTION_MOVE:
@@ -226,5 +232,4 @@ public class ScrollerDemoView2 extends LinearLayout {
         }
         return scalingFactor;
     }
-
 }
