@@ -1,102 +1,110 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<com.rqhua.demo.defineview.scroller.ScrollerDemoView3 xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_alignParentTop="true"
-    android:background="#FFF"
-    android:orientation="vertical"
-    android:visibility="visible"
-    app:bottomheader_height="100dp"
-    app:topheader_height="200dp">
+    android:background="@color/colorAccent"
+    android:orientation="horizontal">
 
-    <RelativeLayout
+    <com.rqhua.demo.defineview.demo2.CustomeViewGroup
+        android:id="@+id/cvg_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center">
+        android:layout_height="match_parent"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:background="#FFF"
+        android:orientation="vertical"
+        android:visibility="visible"
+        app:bottomheader_height="100dp"
+        app:topheader_height="200dp">
 
-
-        <Button
-            android:id="@+id/st_sticky"
-            android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:background="@color/colorAccent"
-            android:text="This is third child view"
-            android:visibility="visible" />
-
-        <View
-            android:id="@+id/st_header"
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:background="@color/colorPrimary" />
-
-
-    </RelativeLayout>
-
-
-    <ScrollView
-        android:id="@+id/st_content"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:visibility="visible">
-
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:gravity="center">
 
-            <View
+
+            <Button
+                android:id="@+id/st_sticky"
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
-                android:background="#FFF" />
+                android:background="@color/colorAccent"
+                android:text="This is third child view"
+                android:visibility="visible" />
 
             <View
+                android:id="@+id/st_header"
                 android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:background="#00F" />
+                android:layout_height="200dp"
+                android:background="@color/colorPrimary" />
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:background="#FFF" />
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:background="#00F" />
+        </RelativeLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:background="#FFF" />
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:background="#00F" />
+        <ScrollView
+            android:id="@+id/st_content"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:visibility="visible">
 
-            <View
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:background="#FFF" />
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:background="#00F" />
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:background="#FFF" />
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:background="#FFF" />
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:background="#00F" />
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:background="#00F" />
-        </LinearLayout>
-    </ScrollView>
-</com.rqhua.demo.defineview.scroller.ScrollerDemoView3>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:background="#FFF" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:background="#00F" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:background="#FFF" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:background="#00F" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:background="#FFF" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:background="#00F" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:background="#FFF" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:background="#00F" />
+            </LinearLayout>
+        </ScrollView>
+    </com.rqhua.demo.defineview.demo2.CustomeViewGroup>
+</RelativeLayout>

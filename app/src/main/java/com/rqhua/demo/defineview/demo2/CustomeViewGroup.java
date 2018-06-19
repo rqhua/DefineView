@@ -1,7 +1,6 @@
-package com.rqhua.demo.defineview.scroller;
+package com.rqhua.demo.defineview.demo2;
 
 import android.content.Context;
-import android.content.res.TypedArray;
 import android.graphics.Rect;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewConfigurationCompat;
@@ -12,8 +11,8 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.ViewGroup;
-import android.view.ViewParent;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import com.rqhua.demo.defineview.R;
 
@@ -21,7 +20,7 @@ import com.rqhua.demo.defineview.R;
  * Created by Administrator on 2018/6/13.
  */
 
-public class ScrollerDemoView3 extends LinearLayout {
+public class CustomeViewGroup extends LinearLayout implements StatusCallback {
     //头部
     private View mHeaderTop;
     private View mHeaderBottom;
@@ -37,11 +36,6 @@ public class ScrollerDemoView3 extends LinearLayout {
     private float mHeaderBottomMeasuredHeight;
     private float mHeaderTopMeasuredHeight;
 
-    private boolean isInit = true;
-    //上层Header高度
-    private float topHeaderHeight;
-    //下层header高度
-    private float bottomHeaderHeight;
     //上下层header原始高度差
     private float mDH;
     //更新状态后的header高度差
@@ -63,17 +57,18 @@ public class ScrollerDemoView3 extends LinearLayout {
     private float b2;
 
     //======函数方程==========
-    public ScrollerDemoView3(Context context) {
+    public CustomeViewGroup(Context context) {
         this(context, null);
     }
 
-    public ScrollerDemoView3(Context context, @Nullable AttributeSet attrs) {
+    public CustomeViewGroup(Context context, @Nullable AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public ScrollerDemoView3(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public CustomeViewGroup(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-
+        //根据不同的内容布局设置对应的回调
+//        setStatusCallback(this);
         DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
         screenWidth = displayMetrics.widthPixels;
         screenHeight = displayMetrics.heightPixels;
@@ -135,56 +130,119 @@ public class ScrollerDemoView3 extends LinearLayout {
         mHeaderTop.setAlpha(1 - mAlphaT);
     }
 
-    private static final float MIN_SCALING_FACTOR = (float) 0.8;
+    private static final float MIN_SCALING_FACTOR = (float) 0.7;
 
     float mLastY;
+    float mLastX;
     float mDiffY;
+    float mDiffX;
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
         float y = ev.getRawY();
+        float x = ev.getRawX();
         switch (ev.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 mLastY = y;
+                mLastX = x;
                 break;
             case MotionEvent.ACTION_MOVE:
+//                mDiffY = y - mLastY;
                 mDiffY = y - mLastY;
-                distance = y - mLastY;
+                mDiffX = x - mLastX;
                 mLastY = y;
-                //内容下滑事件传递给布局
-                if (mDiffY > 0 && mChangedDH == 0 && isContentTop()) {
-                    ev.setAction(MotionEvent.ACTION_CANCEL);
+                mLastX = x;
+                if (Math.abs(mDiffX) > Math.abs(mDiffY)) { //左右
+                    Log.d(TAG, "onInterceptTouchEvent: 左右");
+                    if (mDiffX > 0) { //右滑
+                        direction = 1;
+                    } else { //左滑
+                        direction = -1;
+                    }
+                } else { //上下
+                    Log.d(TAG, "onInterceptTouchEvent: 上下");
+                    direction = 2;
+                    //内容下滑事件传递给布局
+                    if (mDiffY > 0 && mChangedDH == 0 && getStatusCallback().isContentTop(mTouchSlop)) {
+                        ev.setAction(MotionEvent.ACTION_CANCEL);
+                    }
+                    if (mDiffY < 0 && mChangedDH > 0) {
+                        ev.setAction(MotionEvent.ACTION_CANCEL);
+                    }
                 }
+
+                break;
+            case MotionEvent.ACTION_UP:
+                direction = 0;
                 break;
         }
         return super.dispatchTouchEvent(ev);
     }
 
+    private int direction;
+    int MIN_OFFSET_VALUE = 20;
+
     @Override
     public boolean onInterceptTouchEvent(MotionEvent event) {
         switch (event.getAction()) {
             case MotionEvent.ACTION_MOVE:
-                //下滑
-                if (mDiffY > 0 && mChangedDH < mDH /*&& isContentTop()*/) {
-                    return true;
-                }
-                //上滑
-                if (mDiffY < 0 && mChangedDH > 0 /*&& isContentTop()*/) {
-                    return true;
-                }
 
-                if (mChangedDH >= mTouchSlop) {
+                /*float offsetX = mDiffX;//X方向偏移量
+                float offsetY = mDiffY;//Y方向偏移量
+
+                if (Math.abs(offsetX) > Math.abs(offsetY)) {//左滑或者右滑
+                    if (offsetX > MIN_OFFSET_VALUE) {
+                        if (mDirectionControlListener != null) {//左滑
+                            mDirectionControlListener.leftSlide();
+                        }
+                    } else {
+                        if (mDirectionControlListener != null) {//右滑
+                            mDirectionControlListener.rightSlide();
+                        }
+                    }
+                } else {//上滑或者下滑
+                    if (e1.getY() - e2.getY() > MIN_OFFSET_VALUE) {
+                        if (mDirectionControlListener != null) {//上滑
+                            mDirectionControlListener.upSlide();
+                        }
+                    } else {
+                        if (mDirectionControlListener != null) {//下滑
+                            mDirectionControlListener.downSlide();
+                        }
+                    }
+                }*/
+
+//                Log.d(TAG, "onInterceptTouchEvent: mDiffX " + mDiffX);
+//                Log.d(TAG, "onInterceptTouchEvent: mDiffY " + mDiffY);
+
+                if (direction == 2) {
+                    if (interceptUD()) return true;
+                } else if (direction == 1 || direction == -1) {
                     return true;
                 }
-
                 break;
         }
         return super.onInterceptTouchEvent(event);
     }
 
+    private boolean interceptUD() {
+        //下滑
+        if (mDiffY > 0 && mChangedDH < mDH /*&& isContentTop()*/) {
+            return true;
+        }
+        //上滑
+        if (mDiffY < 0 && mChangedDH > 0 /*&& isContentTop()*/) {
+            return true;
+        }
+
+        if (mChangedDH >= mTouchSlop) {
+            return true;
+        }
+        return false;
+    }
+
     private static final String TAG = "ScrollerDemoView3";
 
-    private float distance;
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
@@ -192,24 +250,43 @@ public class ScrollerDemoView3 extends LinearLayout {
             case MotionEvent.ACTION_DOWN:
                 break;
             case MotionEvent.ACTION_MOVE:
-                updateStatus();
-                if (mChangedDH == 0 || mChangedDH == mDH) {
-                    //content与布局滑动事件传递，通过cancel事件：上滑动传递
-                    event.setAction(MotionEvent.ACTION_DOWN);
-                    dispatchTouchEvent(event);
+//                Log.d(TAG, "onTouchEvent: ACTION_MOVE");
+                if (direction == 2) {
+                    updateStatus();
+                    if (mChangedDH == 0 || mChangedDH == mDH) {
+                        //content与布局滑动事件传递，通过cancel事件：上滑动传递
+                        event.setAction(MotionEvent.ACTION_DOWN);
+                        dispatchTouchEvent(event);
+                    }
+                } else if (direction == 1) {
+//                    mWidth = mDefaultWidth;
+                    updatea();
+                } else if (direction == -1) {
+//                    mWidth = screenWidth;
+                    updatea();
                 }
+
                 break;
             case MotionEvent.ACTION_CANCEL:
-                Log.d(TAG, "onTouchEvent: ACTION_CANCEL");
-                updateStatus();
+//                Log.d(TAG, "onTouchEvent: ACTION_CANCEL");
+                if (direction == 2) {
+                    updateStatus();
+                } else if (direction == 1) {
+//                    mWidth = mDefaultWidth;
+                    updatea();
+                } else if (direction == -1) {
+//                    mWidth = screenWidth;
+                    updatea();
+                }
                 break;
         }
         return super.onTouchEvent(event);
     }
 
-    private void updateStatus() {
+    private void updatea() {
+        Log.d(TAG, "updatea: mDiffX " + mDiffX);
         //改变透明度及宽度
-        mWidth -= distance;
+        mWidth -= mDiffX;
         if (mWidth > screenWidth)
             mWidth = screenWidth;
         if (mWidth < mDefaultWidth)
@@ -219,10 +296,35 @@ public class ScrollerDemoView3 extends LinearLayout {
         requestLayout();
     }
 
-    private boolean isContentTop() {
-        Rect rect = new Rect();
-        mContentView.getDrawingRect(rect);
-        boolean b = rect.top <= mTouchSlop ? true : false;
-        return b;
+    private void updateStatus() {
+        //改变透明度及宽度
+        mWidth -= mDiffY;
+        if (mWidth > screenWidth)
+            mWidth = screenWidth;
+        if (mWidth < mDefaultWidth)
+            mWidth = mDefaultWidth;
+        mChangedDH = a1 * mWidth + b1;
+        mAlphaT = a2 * mWidth + b2;
+        requestLayout();
     }
+
+    private StatusCallback statusCallback;
+
+    public StatusCallback getStatusCallback() {
+        return statusCallback;
+    }
+
+    public void setStatusCallback(StatusCallback statusCallback) {
+        this.statusCallback = statusCallback;
+    }
+
+    @Override
+    public boolean isContentTop(float mTouchSlop) {
+//        Rect rect = new Rect();
+//        mContentView.getDrawingRect(rect);
+//        boolean b = rect.top <= mTouchSlop ? true : false;
+//        return b;
+        return false;
+    }
+
 }

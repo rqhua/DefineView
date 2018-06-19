@@ -1,4 +1,4 @@
-package com.rqhua.demo.defineview.scroller;
+package com.rqhua.demo.defineview.demo1;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -55,10 +55,10 @@ public class ScrollerDemoView2 extends LinearLayout {
     public ScrollerDemoView2(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
 
-        TypedArray typedArray = getContext().obtainStyledAttributes(attrs, R.styleable.DefineView);
+        TypedArray typedArray = getContext().obtainStyledAttributes(attrs, R.styleable.CustomeViewGroup);
         //headerView 高度
-        topHeaderHeight = typedArray.getDimension(R.styleable.DefineView_topheader_height, 0);
-        bottomHeaderHeight = typedArray.getDimension(R.styleable.DefineView_bottomheader_width, 0);
+        topHeaderHeight = typedArray.getDimension(R.styleable.CustomeViewGroup_topheader_height, 0);
+        bottomHeaderHeight = typedArray.getDimension(R.styleable.CustomeViewGroup_bottomheader_width, 0);
         typedArray.recycle();
         mHeaderTopMeasuredHeight = (int) topHeaderHeight;
         mHeaderBottomMeasuredHeight = (int) bottomHeaderHeight;

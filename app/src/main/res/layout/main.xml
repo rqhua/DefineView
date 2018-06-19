@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context="com.rqhua.demo.defineview.SnapHelperActivity">
 
-    <com.rqhua.demo.defineview.scroller.ScrollerDemoView
+    <com.rqhua.demo.defineview.demo1.ScrollerDemoView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentTop="true"
@@ -88,7 +88,7 @@
             </LinearLayout>
 
         </ScrollView>
-    </com.rqhua.demo.defineview.scroller.ScrollerDemoView>
+    </com.rqhua.demo.defineview.demo1.ScrollerDemoView>
 
 
     <com.rqhua.demo.defineview.scroller.ScrollerLayout

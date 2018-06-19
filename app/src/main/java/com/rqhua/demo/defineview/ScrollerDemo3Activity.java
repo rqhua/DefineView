@@ -1,12 +1,17 @@
 package com.rqhua.demo.defineview;
 
 import android.app.Activity;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.ScrollView;
 import android.widget.Toast;
+
+import com.rqhua.demo.defineview.demo2.CustomeViewGroup;
+import com.rqhua.demo.defineview.demo2.StatusCallback;
 
 public class ScrollerDemo3Activity extends Activity implements View.OnClickListener {
     RecyclerView recyclerView;
@@ -18,7 +23,19 @@ public class ScrollerDemo3Activity extends Activity implements View.OnClickListe
         setContentView(R.layout.main3);
         findViewById(R.id.st_header).setOnClickListener(this);
         findViewById(R.id.st_sticky).setOnClickListener(this);
+        final ScrollView scrollView = (ScrollView) findViewById(R.id.st_content);
         findViewById(R.id.st_content).setOnClickListener(this);
+        CustomeViewGroup customeViewGroup = (CustomeViewGroup) findViewById(R.id.cvg_layout);
+        customeViewGroup.setStatusCallback(new StatusCallback() {
+            @Override
+            public boolean isContentTop(float mTouchSlop) {
+                Rect rect = new Rect();
+                scrollView.getDrawingRect(rect);
+                boolean b = rect.top <= mTouchSlop ? true : false;
+                return b;
+            }
+        });
+
         recyclerView = ((RecyclerView) findViewById(R.id.recyclerview));
     }
 

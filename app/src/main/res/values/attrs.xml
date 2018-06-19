@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <declare-styleable name="DefineView">
+    <declare-styleable name="CustomeViewGroup">
         <attr name="topheader_height" format="dimension" />
         <attr name="topheader_width" format="dimension" />
         <attr name="bottomheader_height" format="dimension" />
