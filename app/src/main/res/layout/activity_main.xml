@@ -30,4 +30,12 @@
         android:layout_margin="10dp"
         android:padding="10dp"
         android:text="ScrollerDemo3" />
+
+    <Button
+        android:id="@+id/demo4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:padding="10dp"
+        android:text="ScrollerDemo4" />
 </LinearLayout>

@@ -21,6 +21,7 @@
         <activity android:name=".ScrollerDemo1Activity" />
         <activity android:name=".ScrollerDemo2Activity" />
         <activity android:name=".ScrollerDemo3Activity" />
+        <activity android:name=".ScrollerDemo31Activity" />
     </application>
 
 </manifest>
