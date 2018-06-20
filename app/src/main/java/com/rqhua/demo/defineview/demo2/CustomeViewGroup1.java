@@ -69,7 +69,7 @@ public class CustomeViewGroup1 extends RelativeLayout implements StatusCallback 
         super(context, attrs, defStyleAttr);
         //根据不同的内容布局设置对应的内容是否到达顶部回调
         //默认回调为本身实现
-        setStatusCallback(this);
+//        setStatusCallback(this);
 //        DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
 //        mWidth = displayMetrics.widthPixels;
 //        screenHeight = displayMetrics.heightPixels;
@@ -214,13 +214,15 @@ public class CustomeViewGroup1 extends RelativeLayout implements StatusCallback 
     }
 
     private boolean interceptUD() {
+        boolean contentTop = getStatusCallback().isContentTop(mTouchSlop);
         //下滑
-        if (mDiffY > 0 && mChangedDH < mDH && isContentTop(mTouchSlop)) {
+        Log.d(TAG, "interceptUD: contentTop " + contentTop);
+        if (mDiffY > 0 && mChangedDH < mDH && contentTop) {
             Log.d(TAG, "interceptUD: 111111111111");
             return true;
         }
         //上滑
-        if (mDiffY < 0 && mChangedDH > 0 && isContentTop(mTouchSlop)) {
+        if (mDiffY < 0 && mChangedDH > 0 && contentTop) {
             Log.d(TAG, "interceptUD: 222222222222");
             return true;
         }
@@ -312,8 +314,12 @@ public class CustomeViewGroup1 extends RelativeLayout implements StatusCallback 
     //设置透明度
     private void setHeaderAlpha(float stickyAlpha) {
         mSticky.setAlpha(stickyAlpha);
-        mHeader.setAlpha(1 - stickyAlpha);
-        if (stickyAlpha < 0.2) {
+
+        if (1 - stickyAlpha < 0.4)
+            mHeader.setAlpha((float) 0.4);
+        else
+            mHeader.setAlpha(1 - stickyAlpha);
+        if (stickyAlpha <= 0.2) {
             mSticky.setEnabled(false);
         } else {
             mSticky.setEnabled(true);

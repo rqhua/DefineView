@@ -3,227 +3,83 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/cvg_layout"
-    android:layout_width="300dp"
-    android:layout_height="400dp"
-    android:background="#F00"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFF"
     android:visibility="visible"
     app:bottomheader_height="100dp"
     app:topheader_height="200dp">
 
-    <ScrollView
+    <android.support.v7.widget.RecyclerView
         android:id="@+id/menu"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:background="#0000"
-        android:visibility="visible">
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:background="#0F0"
-                android:gravity="center"
-                android:text="测试测试测试"
-                android:textColor="@color/colorPrimaryDark"
-                android:textSize="24sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:background="#F00"
-                android:gravity="center"
-                android:text="测试测试测试"
-                android:textColor="@color/colorPrimaryDark"
-                android:textSize="24sp"
-                android:textStyle="bold" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:background="#00F0" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:background="#0F00" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:background="#0F0"
-                android:gravity="center"
-                android:text="测试测试测试"
-                android:textColor="@color/colorPrimaryDark"
-                android:textSize="24sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:background="#F00"
-                android:gravity="center"
-                android:text="测试测试测试"
-                android:textColor="@color/colorPrimaryDark"
-                android:textSize="24sp"
-                android:textStyle="bold" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:background="#0F0" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:background="#F00" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:background="#0F0"
-                android:gravity="center"
-                android:text="测试测试测试"
-                android:textColor="@color/colorPrimaryDark"
-                android:textSize="24sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:background="#F00"
-                android:gravity="center"
-                android:text="测试测试测试"
-                android:textColor="@color/colorPrimaryDark"
-                android:textSize="24sp"
-                android:textStyle="bold" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:background="#0F0" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:background="#F00" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:background="#0F0" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:background="#F00" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:background="#0F0" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:background="#F00" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:background="#0F0" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:background="#F00" />
-        </LinearLayout>
-    </ScrollView>
+        android:layout_centerVertical="true" />
 
 
-    <View
-        android:id="@+id/st_header"
+    <RelativeLayout
+        android:id="@+id/rl"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:background="@color/colorPrimary" />
+        android:background="#FFF">
 
-    <Button
+        <ImageView
+            android:id="@+id/st_header"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/fifa" />
+    </RelativeLayout>
+
+
+    <LinearLayout
         android:id="@+id/st_sticky"
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:background="@color/colorAccent"
-        android:text="This is third child view"
-        android:visibility="visible" />
+        android:background="#FFF"
+        android:orientation="horizontal">
 
-    <ScrollView
+        <Button
+            android:id="@+id/btn_1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="1dp"
+            android:layout_weight="1.0"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="TEXT-0"
+            android:visibility="visible" />
+
+        <Button
+            android:id="@+id/btn_2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="1dp"
+            android:layout_weight="1.0"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="TEXT-1"
+            android:visibility="visible" />
+
+        <Button
+            android:id="@+id/btn_3"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.0"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="TEXT-2"
+            android:visibility="visible" />
+    </LinearLayout>
+
+
+    <android.support.v7.widget.RecyclerView
         android:id="@+id/st_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:layout_below="@+id/st_header"
-        android:visibility="visible">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:background="#FFF" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:background="#00F" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:background="#FFF" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:background="#00F" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:background="#FFF" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:background="#00F" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:background="#FFF" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:background="#00F" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:background="#FFF" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:background="#00F" />
-        </LinearLayout>
-    </ScrollView>
+        android:layout_below="@+id/rl"></android.support.v7.widget.RecyclerView>
 </com.rqhua.demo.defineview.demo2.CustomeViewGroup1>
