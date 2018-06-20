@@ -136,7 +136,7 @@ public class CustomeViewGroup1 extends RelativeLayout implements StatusCallback 
         setHeaderAlpha(mStickyAlpha);
     }
 
-    private static final float MIN_SCALING_FACTOR = (float) 0.7;
+    private static final float MIN_SCALING_FACTOR = (float) 0.75;
 
     float mLastY;
     float mLastX;
