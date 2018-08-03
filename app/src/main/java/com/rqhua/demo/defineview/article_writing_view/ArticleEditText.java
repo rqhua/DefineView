@@ -69,7 +69,7 @@ public class ArticleEditText extends AppCompatEditText {
         mPaint.setStyle(Paint.Style.FILL_AND_STROKE);
         mPaint.setColor(Color.LTGRAY);
         mPaint.setPathEffect(new DashPathEffect(new float[]{20, 10}, 0));
-        setLineSpacing(10, 1.2f);
+//        setLineSpacing(10, 1.2f);
         textWatcher();
         post(new Runnable() {
             @Override
@@ -100,21 +100,11 @@ public class ArticleEditText extends AppCompatEditText {
         addTextChangedListener(new TextWatcher() {
             private int selectionStart;
             private String textPre;
-            //修改内容之前，第一个换行符的位置
-            private int lineBreakIndexBd = -1;
-            //修改内容之后，第一个换行符的位置
-            private int lineBreakIndexCd = -1;
-            //是否设置无内容时的光标位置：true时设置到第二行开始
-            private boolean setDefaultSelection = false;
-
 
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
                 if (s != null) {
                     textPre = s.toString();
-                    lineBreakIndexBd = textPre.indexOf(LINE_BREAK);
-                } else {
-                    lineBreakIndexBd = -1;
                 }
                 selectionStart = getSelectionStart();
             }
@@ -132,7 +122,6 @@ public class ArticleEditText extends AppCompatEditText {
                 //1.1 空：显示默认三行
                 if (editable == null) {
                     text = BLANK_CONTENT;
-                    setDefaultSelection = true;
                     setText(text);
                     return;
                 }
@@ -140,7 +129,6 @@ public class ArticleEditText extends AppCompatEditText {
                 text = editable.toString();
                 if (TextUtils.isEmpty(text) || NO_CONTENT_LINE.equals(text)) {
                     text = BLANK_CONTENT;
-                    setDefaultSelection = true;
                     setText(text);
                     return;
                 }
@@ -235,12 +223,6 @@ public class ArticleEditText extends AppCompatEditText {
         }
     }
 
-    @Override
-    protected void onDraw(Canvas canvas) {
-
-        super.onDraw(canvas);
-        predraw(canvas);
-    }
 
     public RefreshBgCallback getCallback() {
         return callback;
@@ -276,9 +258,15 @@ public class ArticleEditText extends AppCompatEditText {
     }
 
 
+    @Override
+    protected void onDraw(Canvas canvas) {
+        super.onDraw(canvas);
+        predraw(canvas);
+    }
+
+
     private void predraw(Canvas canvas) {
         long lineRange = getLineRangeForDraw(canvas);
-//        lineRange++;
         //firstLine = 0
         int firstLine = TextUtil.unpackRangeStartFromLong(lineRange);
         //firstLine = lineRange
@@ -287,22 +275,27 @@ public class ArticleEditText extends AppCompatEditText {
     }
 
     public void drawText(Canvas canvas, int firstLine, int lastLine) {
-
-        //行的开始位置
-        int previousLineBottom = getLayout().getLineTop(firstLine);
-        int previousLineEnd = getLayout().getLineStart(firstLine);
-
+        int offset = 0;
+        int lastOffset = 0;
         for (int i = firstLine; i <= lastLine; i++) {
-            int start = previousLineEnd;
-            previousLineEnd = getLayout().getLineStart(i + 1);
-            int end = getLineVisibleEnd(i, start, previousLineEnd);
-
-            int ltop = previousLineBottom;
+            //文字基准线： 下一行的顶部 - 本行的descent
+            //下一行的顶部
             int lbottom = getLayout().getLineTop(i + 1);
-            previousLineBottom = lbottom;
+            //基准线：在文字下划线位置
             int lbaseline = lbottom - getLayout().getLineDescent(i);
+            int paddingTop = getPaddingTop();
+            //加上基准线到下一行顶部距离的一半，作为画线位置
+            //如果设置有padding值，还需要加上paddingTop的偏移量
+            offset = (lbottom - lbaseline) / 2 + paddingTop;
+//            lbaseline = lbaseline + (lbottom - lbaseline) / 2;
+            lbaseline += offset;
+            //首行和最后一行不可操作，不划线
+            if (i == lastLine - 1) {
+                lbaseline += lastOffset;
+            }
             if (i != firstLine && i != lastLine)
                 canvas.drawLine(0, lbaseline, 1000, lbaseline, mPaint);
+            lastOffset = offset - paddingTop;
         }
     }
 

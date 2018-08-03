@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
 
+import com.rqhua.demo.defineview.article_writing_view.ArticleWritingActivity;
 import com.rqhua.demo.defineview.scroller_demo.ScrollerDemoActivity;
 
 public class MainActivity extends Activity implements View.OnClickListener {
@@ -15,6 +16,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         findViewById(R.id.scrollerdemo).setOnClickListener(this);
+        findViewById(R.id.article).setOnClickListener(this);
     }
 
     private static final String TAG = "MainActivity";
@@ -25,6 +27,9 @@ public class MainActivity extends Activity implements View.OnClickListener {
         switch (v.getId()) {
             case R.id.scrollerdemo:
                 startActivity(new Intent(this, ScrollerDemoActivity.class));
+                break;
+            case R.id.article:
+                startActivity(new Intent(this, ArticleWritingActivity.class));
                 break;
         }
     }
