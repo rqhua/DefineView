@@ -12,8 +12,12 @@
         android:layout_height="wrap_content"
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
+        android:textColor="#FFFFFFFF"
+        android:gravity="center|left"
+        android:textSize="40sp"
         android:lineSpacingExtra="15dp"
         android:layout_margin="20dp"
+        android:textCursorDrawable="@drawable/selector"
         android:background="@color/colorPrimary" />
 
 </ScrollView>
