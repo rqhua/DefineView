@@ -1,4 +1,4 @@
-package com.rqhua.demo.defineview;
+package com.rqhua.demo.defineview.scroller_demo;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -8,8 +8,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
-import com.rqhua.demo.defineview.demo2.CustomeViewGroup;
-import com.rqhua.demo.defineview.demo2.StatusCallback;
+import com.rqhua.demo.defineview.AbsAdapter;
+import com.rqhua.demo.defineview.R;
 
 import java.util.ArrayList;
 import java.util.List;
