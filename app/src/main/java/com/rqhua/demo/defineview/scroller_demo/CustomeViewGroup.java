@@ -1,4 +1,4 @@
-package com.rqhua.demo.defineview.demo2;
+package com.rqhua.demo.defineview.scroller_demo;
 
 import android.content.Context;
 import android.graphics.Rect;

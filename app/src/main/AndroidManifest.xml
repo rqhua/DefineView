@@ -16,8 +16,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <activity android:name=".ScrollerDemoActivity" />
+        <activity android:name=".scroller_demo.ScrollerDemoActivity" />
+        <activity android:name=".article_writing_view.ArticleWritingActivity"></activity>
     </application>
 
 </manifest>
