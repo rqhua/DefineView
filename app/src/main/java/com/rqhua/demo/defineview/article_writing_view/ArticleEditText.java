@@ -136,12 +136,7 @@ public class ArticleEditText extends AppCompatEditText {
                     setText(text);
                     return;
                 }
-                //1.3 空和无内容时，光标定位到第二行的开始
-                /*if (setDefaultSelection) {
-                    setSelection(1);
-                    setDefaultSelection = false;
-                }
-*/
+
                 //修改内容之后，第一个换行符的位置
                 if (!startWithLineBreak(text)) {
                     text = LINE_BREAK + text;
@@ -150,16 +145,7 @@ public class ArticleEditText extends AppCompatEditText {
                     }
                     setText(text);
                 }
-                /*lineBreakIndexCd = text.indexOf(LINE_BREAK);
-                if (lineBreakIndexCd != 0) { //修改之后，开头不是换行符
-                    *//*if (lineBreakIndexBd == 0) {
-                        text = LINE_BREAK + text;
-                        setText(text);
-                        return;
-                    }*//*
-                    text = LINE_BREAK + text;
 
-                }*/
                 if (!endWithLineBreak(text)) {
                     text = text + LINE_BREAK;
                     setText(text);
