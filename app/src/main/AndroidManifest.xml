@@ -16,12 +16,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".SnapHelperActivity" />
 
-        <activity android:name=".ScrollerDemo1Activity" />
-        <activity android:name=".ScrollerDemo2Activity" />
-        <activity android:name=".ScrollerDemo3Activity" />
-        <activity android:name=".ScrollerDemo31Activity" />
+        <activity android:name=".ScrollerDemoActivity" />
     </application>
 
 </manifest>

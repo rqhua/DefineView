@@ -1,23 +1,20 @@
 package com.rqhua.demo.defineview;
 
 import android.app.Activity;
-import android.graphics.Rect;
 import android.os.Bundle;
-import android.support.design.internal.NavigationMenuView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Toast;
 
-import com.rqhua.demo.defineview.demo2.CustomeViewGroup1;
+import com.rqhua.demo.defineview.demo2.CustomeViewGroup;
 import com.rqhua.demo.defineview.demo2.StatusCallback;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ScrollerDemo31Activity extends Activity implements View.OnClickListener, StatusCallback {
+public class ScrollerDemoActivity extends Activity implements View.OnClickListener, StatusCallback {
     private RecyclerView content;
     private RecyclerView menu;
     private AbsAdapter<String> adapter;
@@ -26,7 +23,7 @@ public class ScrollerDemo31Activity extends Activity implements View.OnClickList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 //        setContentView(R.layout.activity_main);
-        setContentView(R.layout.main31);
+        setContentView(R.layout.activity_scroller_demo);
         findViewById(R.id.st_header).setOnClickListener(this);
         findViewById(R.id.st_sticky).setOnClickListener(this);
         findViewById(R.id.btn_1).setOnClickListener(this);
@@ -38,7 +35,7 @@ public class ScrollerDemo31Activity extends Activity implements View.OnClickList
     private void initRv() {
         content = (RecyclerView) findViewById(R.id.st_content);
         menu = (RecyclerView) findViewById(R.id.menu);
-        CustomeViewGroup1 customeViewGroup = (CustomeViewGroup1) findViewById(R.id.cvg_layout);
+        CustomeViewGroup customeViewGroup = (CustomeViewGroup) findViewById(R.id.cvg_layout);
         customeViewGroup.setStatusCallback(this);
         adapter = new AbsAdapter<String>(this) {
             @Override
@@ -47,7 +44,7 @@ public class ScrollerDemo31Activity extends Activity implements View.OnClickList
                 holder.setOnItemClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Toast.makeText(ScrollerDemo31Activity.this, "Click position " + position, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ScrollerDemoActivity.this, "Click position " + position, Toast.LENGTH_SHORT).show();
                     }
                 });
             }
@@ -78,27 +75,27 @@ public class ScrollerDemo31Activity extends Activity implements View.OnClickList
         switch (v.getId()) {
             case R.id.st_header:
                 Log.d(TAG, "onClick st_header");
-                Toast.makeText(ScrollerDemo31Activity.this, "Click st_header", Toast.LENGTH_SHORT).show();
+                Toast.makeText(ScrollerDemoActivity.this, "Click st_header", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.st_sticky:
                 Log.d(TAG, "onClick st_sticky");
-                Toast.makeText(ScrollerDemo31Activity.this, "Click st_sticky", Toast.LENGTH_SHORT).show();
+                Toast.makeText(ScrollerDemoActivity.this, "Click st_sticky", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.st_content:
                 Log.d(TAG, "onClick st_content");
-                Toast.makeText(ScrollerDemo31Activity.this, "Click st_content", Toast.LENGTH_SHORT).show();
+                Toast.makeText(ScrollerDemoActivity.this, "Click st_content", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.btn_1:
                 Log.d(TAG, "onClick TEXT-1");
-                Toast.makeText(ScrollerDemo31Activity.this, "Click TEXT-1", Toast.LENGTH_SHORT).show();
+                Toast.makeText(ScrollerDemoActivity.this, "Click TEXT-1", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.btn_2:
                 Log.d(TAG, "onClick TEXT-2");
-                Toast.makeText(ScrollerDemo31Activity.this, "Click TEXT-2", Toast.LENGTH_SHORT).show();
+                Toast.makeText(ScrollerDemoActivity.this, "Click TEXT-2", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.btn_3:
                 Log.d(TAG, "onClick TEXT-3");
-                Toast.makeText(ScrollerDemo31Activity.this, "Click TEXT-3", Toast.LENGTH_SHORT).show();
+                Toast.makeText(ScrollerDemoActivity.this, "Click TEXT-3", Toast.LENGTH_SHORT).show();
                 break;
         }
     }

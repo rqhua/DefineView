@@ -7,35 +7,12 @@
     android:orientation="vertical"
     tools:context="com.rqhua.demo.defineview.MainActivity">
 
-    <Button
-        android:id="@+id/demo1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:padding="10dp"
-        android:text="ScrollerDemo1" />
 
     <Button
-        android:id="@+id/demo2"
+        android:id="@+id/scrollerdemo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:padding="10dp"
-        android:text="ScrollerDemo2" />
-
-    <Button
-        android:id="@+id/demo3"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:padding="10dp"
-        android:text="ScrollerDemo3" />
-
-    <Button
-        android:id="@+id/demo4"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:padding="10dp"
-        android:text="ScrollerDemo4" />
+        android:text="ScrollerDemo" />
 </LinearLayout>
