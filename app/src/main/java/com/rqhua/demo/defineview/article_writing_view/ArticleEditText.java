@@ -8,6 +8,7 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.support.v7.widget.AppCompatEditText;
 import android.text.Editable;
+import android.text.Layout;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
@@ -39,6 +40,9 @@ public class ArticleEditText extends AppCompatEditText {
     private RefreshBgCallback callback;
     private SizeValue sizeValue;
     private Paint mPaint;
+    private int lineStartX;
+    private int lineStopX;
+    private int paddingTop;
 
     public ArticleEditText(Context context) {
         super(context);
@@ -181,14 +185,6 @@ public class ArticleEditText extends AppCompatEditText {
     }
 
 
-    @Override
-    protected void onSelectionChanged(int selStart, int selEnd) {
-        super.onSelectionChanged(selStart, selEnd);
-        selectionOption();
-        /*lastSelStart = selStart;
-        lastSelEnd = selEnd;*/
-    }
-
     /**
      * 处理光标位置，不能在第一行和最后一行
      * 处于第一行时，定位到第二行的开始位置
@@ -257,24 +253,34 @@ public class ArticleEditText extends AppCompatEditText {
         return true;
     }
 
+    @Override
+    protected void onSelectionChanged(int selStart, int selEnd) {
+        super.onSelectionChanged(selStart, selEnd);
+        selectionOption();
+    }
+
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+        lineStartX = getPaddingLeft();
+        lineStopX = getMeasuredWidth() - getPaddingRight();
+        paddingTop = getPaddingTop();
+    }
 
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        predraw(canvas);
+        drawline(canvas);
     }
 
 
-    private void predraw(Canvas canvas) {
+    //画线
+    private void drawline(Canvas canvas) {
         long lineRange = getLineRangeForDraw(canvas);
         //firstLine = 0
         int firstLine = TextUtil.unpackRangeStartFromLong(lineRange);
-        //firstLine = lineRange
+        //lastLine = lineRange
         int lastLine = TextUtil.unpackRangeEndFromLong(lineRange);
-        drawText(canvas, firstLine, lastLine);
-    }
-
-    public void drawText(Canvas canvas, int firstLine, int lastLine) {
         int offset = 0;
         int lastOffset = 0;
         for (int i = firstLine; i <= lastLine; i++) {
@@ -283,22 +289,24 @@ public class ArticleEditText extends AppCompatEditText {
             int lbottom = getLayout().getLineTop(i + 1);
             //基准线：在文字下划线位置
             int lbaseline = lbottom - getLayout().getLineDescent(i);
-            int paddingTop = getPaddingTop();
             //加上基准线到下一行顶部距离的一半，作为画线位置
             //如果设置有padding值，还需要加上paddingTop的偏移量
             offset = (lbottom - lbaseline) / 2 + paddingTop;
-//            lbaseline = lbaseline + (lbottom - lbaseline) / 2;
             lbaseline += offset;
-            //首行和最后一行不可操作，不划线
+            //倒数第二行，单独处理：添加上一行的偏移量
             if (i == lastLine - 1) {
                 lbaseline += lastOffset;
             }
+            lineStartX = getPaddingLeft();
+            lineStopX = getMeasuredWidth() - getPaddingRight();
+            //首行和最后一行不可操作，不划线
             if (i != firstLine && i != lastLine)
-                canvas.drawLine(0, lbaseline, 1000, lbaseline, mPaint);
+                canvas.drawLine(lineStartX, lbaseline, lineStopX, lbaseline, mPaint);
             lastOffset = offset - paddingTop;
         }
     }
 
+    //行数
     public long getLineRangeForDraw(Canvas canvas) {
         int dtop, dbottom;
         Rect rect = new Rect();
